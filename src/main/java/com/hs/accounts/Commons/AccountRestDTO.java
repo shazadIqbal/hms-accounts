@@ -1,5 +1,8 @@
 package com.hs.accounts.Commons;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.client.RestTemplate;
+
 public class AccountRestDTO {
     private String id;
     private String name;
@@ -7,7 +10,7 @@ public class AccountRestDTO {
     private String accountType;
 
     public AccountRestDTO() {
-    }
+        }
 
     public AccountRestDTO(String patientId, String patientName, String gender, String accountType) {
         this.id = patientId;

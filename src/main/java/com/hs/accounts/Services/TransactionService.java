@@ -31,33 +31,33 @@ public class TransactionService {
 //        account.setId(1L);
 //        accounts.add(account);
         if(accounts != null) {
-            transactionsDTO.setCurrency("PKR");
-            transactionsDTO.setDescription(transactionRestDTO.getDescription());
-            transactionsDTO.setReceivedAmount(transactionRestDTO.getReceivedAmount());
-            transactionsDTO.setTotalAmount(transactionRestDTO.getTotalAmount());
-            transactionsDTO.setTransactionType(transactionRestDTO.getTransactionType());
-            transactionsDTO.setOperationType(transactionRestDTO.getOperationType());
-            transactionsDTO.setAccounts(accounts);
+//            transactionsDTO.setCurrency("PKR");
+//            transactionsDTO.setDescription(transactionRestDTO.getDescription());
+//            transactionsDTO.setReceivedAmount(transactionRestDTO.getReceivedAmount());
+//            transactionsDTO.setTotalAmount(transactionRestDTO.getTotalAmount());
+//            transactionsDTO.setTransactionType(transactionRestDTO.getTransactionType());
+//            transactionsDTO.setOperationType(transactionRestDTO.getOperationType());
+//            transactionsDTO.setAccounts(accounts);
 
             //Transaction Object
             Transactions transactions = new Transactions();
-            transactions.setAccounts(transactionsDTO.getAccounts());
-            transactions.setCurrency(transactionsDTO.getCurrency());
-            transactions.setDescription(transactionsDTO.getDescription());
+            transactions.setCurrency("PKR");
+            transactions.setAccounts(accounts);
+            transactions.setDescription(transactionRestDTO.getDescription());
 
-            if(transactionsDTO.getTotalAmount() > transactionsDTO.getReceivedAmount())
+            if(transactionRestDTO.getTotalAmount() > transactionRestDTO.getReceivedAmount())
             {
-            transactions.setDues(transactionsDTO.getTotalAmount() - transactionsDTO.getReceivedAmount());
+            transactions.setDues(transactionRestDTO.getTotalAmount() - transactionRestDTO.getReceivedAmount());
             }
             else
                 {
                 transactions.setDues(0.0);
             }
-            transactions.setReceivedAmount(transactionsDTO.getReceivedAmount());
-            transactions.setTotalAmount(transactionsDTO.getTotalAmount());
+            transactions.setReceivedAmount(transactionRestDTO.getReceivedAmount());
+            transactions.setTotalAmount(transactionRestDTO.getTotalAmount());
             transactions.setTransactionDate(new Date());
-            transactions.setTransactionType(transactionsDTO.getTransactionType());
-            transactions.setOperationType(transactionsDTO.getOperationType());
+            transactions.setTransactionType(transactionRestDTO.getTransactionType());
+            transactions.setOperationType(transactionRestDTO.getOperationType());
             transactionsRepository.save(transactions);
 
             return new RestTemplateResponseDTO("200","Suceessfully Added");
