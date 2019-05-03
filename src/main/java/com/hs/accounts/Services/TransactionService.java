@@ -127,4 +127,12 @@ public class TransactionService {
         return response;
     }
 
+    //Delete Transaction after insert in History Table
+    public RestTemplateResponseDTO deleteTransactionByID(String id){
+        Accounts accounts = accountsService.getAccountsByUserId(id);
+        transactionsRepository.deleteByAccountsId(accounts.getId());
+        RestTemplateResponseDTO response = new RestTemplateResponseDTO("200","Deleted Successfully");
+        return response;
+    }
+
 }

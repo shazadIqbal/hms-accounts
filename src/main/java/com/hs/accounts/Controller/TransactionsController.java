@@ -49,5 +49,8 @@ public class TransactionsController {
     public String updateTransactionsByID(@RequestBody TransactionsDTO transactionsDTO, @PathVariable("id") Long id){
         return transactionService.updateTransactionsById(transactionsDTO,id);
     }
-
+    @RequestMapping(value = "/{id}" ,method = RequestMethod.DELETE)
+public RestTemplateResponseDTO deleteTransactionsById(@PathVariable("id") String id){
+        return transactionService.deleteTransactionByID(id);
+    }
 }
