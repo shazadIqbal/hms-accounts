@@ -111,4 +111,6 @@ public class Transactions {
     public void setCurrency(String currency) {
         this.currency = currency;
     }
+
+
 }

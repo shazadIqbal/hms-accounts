@@ -5,6 +5,7 @@ import com.hs.accounts.Commons.RestTemplateResponseDTO;
 import com.hs.accounts.DTO.TransactionsDTO;
 import com.hs.accounts.Model.Accounts;
 import com.hs.accounts.Model.Transactions;
+import com.hs.accounts.Model.Vendor;
 import com.hs.accounts.Repository.TransactionsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,16 +22,23 @@ public class TransactionService {
     @Autowired
     AccountsService accountsService;
 
+    @Autowired
+    VendorService vendorService;
+
     public RestTemplateResponseDTO postTransaction(TransactionRestDTO transactionRestDTO){
 
         //Account Rest DTO Object
-        TransactionsDTO transactionsDTO = new TransactionsDTO();
-        Accounts accounts = accountsService.getAccountsByUserId(transactionRestDTO.getAccountNoUUID());
-        RestTemplateResponseDTO restTemplateResponseDTO = new RestTemplateResponseDTO();
+      //  TransactionsDTO transactionsDTO = new TransactionsDTO();
+        Accounts customerAccount = accountsService.getAccountsByUserId(transactionRestDTO.getAccountNoUUID());
+        Accounts shareAccount = accountsService.getAccountsByUserId(transactionRestDTO.getShareAccountNo());
+        Accounts vendorAccount = accountsService.getAccountsByUserName("Barkhia Hospital");
+    //    RestTemplateResponseDTO restTemplateResponseDTO = new RestTemplateResponseDTO();
 //        Accounts account = new Accounts();
 //        account.setId(1L);
 //        accounts.add(account);
-        if(accounts != null) {
+
+        //Customer Account
+        if(customerAccount != null) {
 //            transactionsDTO.setCurrency("PKR");
 //            transactionsDTO.setDescription(transactionRestDTO.getDescription());
 //            transactionsDTO.setReceivedAmount(transactionRestDTO.getReceivedAmount());
@@ -40,28 +48,74 @@ public class TransactionService {
 //            transactionsDTO.setAccounts(accounts);
 
             //Transaction Object
-            Transactions transactions = new Transactions();
-            transactions.setCurrency("PKR");
-            transactions.setAccounts(accounts);
-            transactions.setDescription(transactionRestDTO.getDescription());
+            Transactions customerTransactions = new Transactions();
+            customerTransactions.setCurrency("PKR");
+            customerTransactions.setAccounts(customerAccount);
+            customerTransactions.setDescription(transactionRestDTO.getDescription());
 
             if(transactionRestDTO.getTotalAmount() > transactionRestDTO.getReceivedAmount())
             {
-            transactions.setDues(transactionRestDTO.getTotalAmount() - transactionRestDTO.getReceivedAmount());
+                customerTransactions.setDues(transactionRestDTO.getTotalAmount() - transactionRestDTO.getReceivedAmount());
             }
             else
                 {
-                transactions.setDues(0.0);
+                    customerTransactions.setDues(0.0);
             }
-            transactions.setReceivedAmount(transactionRestDTO.getReceivedAmount());
-            transactions.setTotalAmount(transactionRestDTO.getTotalAmount());
-            transactions.setTransactionDate(new Date());
-            transactions.setTransactionType(transactionRestDTO.getTransactionType());
-            transactions.setOperationType(transactionRestDTO.getOperationType());
-            transactionsRepository.save(transactions);
+            customerTransactions.setReceivedAmount(transactionRestDTO.getReceivedAmount());
+            customerTransactions.setTotalAmount(transactionRestDTO.getTotalAmount());
+            customerTransactions.setTransactionDate(new Date());
+            customerTransactions.setTransactionType(transactionRestDTO.getTransactionType());
+            customerTransactions.setOperationType(transactionRestDTO.getOperationType());
+            transactionsRepository.save(customerTransactions);
+
+            //Share Holder Account
+
+    if(shareAccount != null) {
+
+        //Transaction Object
+        Transactions shareTransactions = new Transactions();
+        shareTransactions.setCurrency("PKR");
+        shareTransactions.setAccounts(shareAccount);
+        shareTransactions.setDescription(transactionRestDTO.getShareDescription());
+        shareTransactions.setDues(0.0);
+        shareTransactions.setReceivedAmount(0.0);
+        shareTransactions.setTotalAmount(transactionRestDTO.getTotalAmount() * (transactionRestDTO.getSharePercent().doubleValue() / 100));
+        shareTransactions.setTransactionDate(new Date());
+        shareTransactions.setTransactionType("CREDIT");
+        shareTransactions.setOperationType(transactionRestDTO.getOperationType());
+        transactionsRepository.save(shareTransactions);
+
+    }
+    else{
+        transactionRestDTO.setSharePercent(0);
+    }
+
+
+            //Vendor Account
+
+
+
+                //Transaction Object
+                Transactions vendorTransactions = new Transactions();
+                vendorTransactions.setCurrency("PKR");
+                vendorTransactions.setAccounts(vendorAccount);
+                vendorTransactions.setDescription(vendorDescription(customerAccount, vendorAccount));
+                vendorTransactions.setDues(0.0);
+                vendorTransactions.setReceivedAmount(0.0);
+                vendorTransactions.setTotalAmount(transactionRestDTO.getTotalAmount() - (transactionRestDTO.getTotalAmount() * (transactionRestDTO.getSharePercent().doubleValue() / 100)));
+                vendorTransactions.setTransactionDate(new Date());
+                vendorTransactions.setTransactionType("CREDIT");
+                vendorTransactions.setOperationType(transactionRestDTO.getOperationType());
+                transactionsRepository.save(vendorTransactions);
+
+
 
             return new RestTemplateResponseDTO("200","Suceessfully Added");
         }
+
+
+
+
         return new RestTemplateResponseDTO("404","Account Not Found");
     }
 
@@ -126,5 +180,13 @@ public class TransactionService {
        RestTemplateResponseDTO response = new RestTemplateResponseDTO("200","Get Successfully",transactions);
         return response;
     }
+
+    public String vendorDescription(Accounts customerAccount, Accounts vendorAccount){
+        String des = vendorAccount.getUserName() + " share via " + customerAccount.getUserName();
+        return des;
+    }
+
+
+
 
 }

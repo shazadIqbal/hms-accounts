@@ -7,8 +7,23 @@ public class TransactionRestDTO {
     String   description;
     String   operationType;
     String   transactionType;
+    String shareDescription;
+    String shareAccountNo;
+    Integer sharePercent;
 
     public TransactionRestDTO() {
+    }
+
+    public TransactionRestDTO(Double totalAmount, String accountNoUUID, Double receivedAmount, String description, String operationType, String transactionType, String shareDescription, String shareAccountNo, Integer sharePercent) {
+        this.totalAmount = totalAmount;
+        this.accountNoUUID = accountNoUUID;
+        this.receivedAmount = receivedAmount;
+        this.description = description;
+        this.operationType = operationType;
+        this.transactionType = transactionType;
+        this.shareDescription = shareDescription;
+        this.shareAccountNo = shareAccountNo;
+        this.sharePercent = sharePercent;
     }
 
     public Double getTotalAmount() {
@@ -57,5 +72,29 @@ public class TransactionRestDTO {
 
     public void setTransactionType(String transactionType) {
         this.transactionType = transactionType;
+    }
+
+    public String getShareDescription() {
+        return shareDescription;
+    }
+
+    public void setShareDescription(String shareDescription) {
+        this.shareDescription = shareDescription;
+    }
+
+    public String getShareAccountNo() {
+        return shareAccountNo;
+    }
+
+    public void setShareAccountNo(String shareAccountNo) {
+        this.shareAccountNo = shareAccountNo;
+    }
+
+    public Integer getSharePercent() {
+        return sharePercent;
+    }
+
+    public void setSharePercent(Integer sharePercent) {
+        this.sharePercent = sharePercent;
     }
 }
