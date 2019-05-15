@@ -87,4 +87,8 @@ public class AccountsService {
     Accounts accounts = accountsRepository.findByUserId(userId);
     return accounts;
     }
+    public Accounts getAccountsByUserName(String userName){
+        Accounts accounts = accountsRepository.findByUserName(userName);
+        return accounts;
+    }
 }

@@ -99,4 +99,6 @@ public class TransactionsDTO {
     public void setAccounts(Accounts accounts) {
         this.accounts = accounts;
     }
+
+
 }
