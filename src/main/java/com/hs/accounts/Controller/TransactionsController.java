@@ -50,4 +50,22 @@ public class TransactionsController {
         return transactionService.updateTransactionsById(transactionsDTO,id);
     }
 
+
+    @GetMapping("/delete/{refId}")
+    public RestTemplateResponseDTO deleteTransactionsByID(@PathVariable("refId") String refId)
+
+    {
+        return transactionService.deleteTransactionsByRefId(refId);
+
+    }
+
+
+    @PostMapping("/update/{id}")
+    public RestTemplateResponseDTO updateTransactionDues(@PathVariable("id") Long id,@RequestBody TransactionsDTO transactionsDTO)
+    {
+        return transactionService.updateTransactionDues(id,transactionsDTO);
+    }
+
 }
+
+

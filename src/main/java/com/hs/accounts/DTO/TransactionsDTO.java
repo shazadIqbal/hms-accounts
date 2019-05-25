@@ -15,9 +15,18 @@ public class TransactionsDTO {
     private String currency;
     private String operationType;
     private Double dues;
+    String transactionRefId;
     private Accounts accounts;
 
     public TransactionsDTO() {
+    }
+
+    public String getTransactionRefId() {
+        return transactionRefId;
+    }
+
+    public void setTransactionRefId(String transactionRefId) {
+        this.transactionRefId = transactionRefId;
     }
 
     public String getOperationType() {
