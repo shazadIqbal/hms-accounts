@@ -20,8 +20,10 @@ public class Transactions {
     private String transactionType;
     private String description;
     private String currency;
+    String transactionRefId;
     private String operationType;
     private Double dues;
+    //String Transaction ref ID
 
 //    @ManyToMany(mappedBy = "transactions")
 @ManyToOne
@@ -30,6 +32,15 @@ public class Transactions {
     private Accounts accounts;
 
     public Transactions() {
+    }
+
+
+    public String getTransactionRefId() {
+        return transactionRefId;
+    }
+
+    public void setTransactionRefId(String transactionRefId) {
+        this.transactionRefId = transactionRefId;
     }
 
     public String getOperationType() {

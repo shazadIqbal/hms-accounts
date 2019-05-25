@@ -51,6 +51,8 @@ public class TransactionService {
             Transactions customerTransactions = new Transactions();
             customerTransactions.setCurrency("PKR");
             customerTransactions.setAccounts(customerAccount);
+            customerTransactions.setTransactionRefId(transactionRestDTO.getTransactionRefId());
+            // set transaction ref id
             customerTransactions.setDescription(transactionRestDTO.getDescription());
 
             if(transactionRestDTO.getTotalAmount() > transactionRestDTO.getReceivedAmount())
@@ -78,6 +80,8 @@ public class TransactionService {
         shareTransactions.setAccounts(shareAccount);
         shareTransactions.setDescription(transactionRestDTO.getShareDescription());
         shareTransactions.setDues(0.0);
+        shareTransactions.setTransactionRefId(transactionRestDTO.getTransactionRefId());
+        //set transactin ref Id
         shareTransactions.setReceivedAmount(0.0);
         shareTransactions.setTotalAmount(transactionRestDTO.getTotalAmount() * (transactionRestDTO.getSharePercent().doubleValue() / 100));
         shareTransactions.setTransactionDate(new Date());
@@ -105,6 +109,7 @@ public class TransactionService {
                 vendorTransactions.setTotalAmount(transactionRestDTO.getTotalAmount() - (transactionRestDTO.getTotalAmount() * (transactionRestDTO.getSharePercent().doubleValue() / 100)));
                 vendorTransactions.setTransactionDate(new Date());
                 vendorTransactions.setTransactionType("CREDIT");
+                vendorTransactions.setTransactionRefId(transactionRestDTO.getTransactionRefId());
                 vendorTransactions.setOperationType(transactionRestDTO.getOperationType());
                 transactionsRepository.save(vendorTransactions);
 
@@ -187,6 +192,43 @@ public class TransactionService {
     }
 
 
+    public RestTemplateResponseDTO deleteTransactionsByRefId(String refId)
+    {
+        try {
+            transactionsRepository.deleteByTransactionRefId(refId);
+
+
+            return new RestTemplateResponseDTO("200", "Transaction Successfully deleted");
+        }
+        catch (Exception ex)
+        {
+            return  new RestTemplateResponseDTO();
+        }
+
+    }
+
+
+    public RestTemplateResponseDTO updateTransactionDues(Long id,TransactionsDTO transactionsDTO)
+    {
+        Optional<Transactions> obj=transactionsRepository.findById(id);
+
+        if(obj.isPresent())
+        {
+            Transactions trans=obj.get();
+
+            trans.setDues(transactionsDTO.getDues());
+            trans.setReceivedAmount(transactionsDTO.getReceivedAmount());
+
+            transactionsRepository.save(trans);
+            return new RestTemplateResponseDTO("200","Successully updated!");
+        }
+
+        return new RestTemplateResponseDTO("000","Error Updating!");
+
+
+    }
 
 
 }
+
+

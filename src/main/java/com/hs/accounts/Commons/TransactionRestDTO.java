@@ -10,11 +10,15 @@ public class TransactionRestDTO {
     String shareDescription;
     String shareAccountNo;
     Integer sharePercent;
+    String transactionRefId;
+
+
+    // String transation reffId
 
     public TransactionRestDTO() {
     }
 
-    public TransactionRestDTO(Double totalAmount, String accountNoUUID, Double receivedAmount, String description, String operationType, String transactionType, String shareDescription, String shareAccountNo, Integer sharePercent) {
+    public TransactionRestDTO(String transactionRefId,Double totalAmount, String accountNoUUID, Double receivedAmount, String description, String operationType, String transactionType, String shareDescription, String shareAccountNo, Integer sharePercent) {
         this.totalAmount = totalAmount;
         this.accountNoUUID = accountNoUUID;
         this.receivedAmount = receivedAmount;
@@ -24,6 +28,14 @@ public class TransactionRestDTO {
         this.shareDescription = shareDescription;
         this.shareAccountNo = shareAccountNo;
         this.sharePercent = sharePercent;
+    }
+
+    public String getTransactionRefId() {
+        return transactionRefId;
+    }
+
+    public void setTransactionRefId(String transactionRefId) {
+        this.transactionRefId = transactionRefId;
     }
 
     public Double getTotalAmount() {

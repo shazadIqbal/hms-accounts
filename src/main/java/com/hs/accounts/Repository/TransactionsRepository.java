@@ -2,6 +2,7 @@ package com.hs.accounts.Repository;
 
 import com.hs.accounts.Model.Accounts;
 import com.hs.accounts.Model.Transactions;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,11 @@ public interface TransactionsRepository extends JpaRepository<Transactions,Long>
     @Transactional
     @Modifying
     void deleteByAccountsId(Long accountId);
+
+
+    @Transactional
+    @Modifying
+     void deleteByTransactionRefId(String refId);
+
+
 }
