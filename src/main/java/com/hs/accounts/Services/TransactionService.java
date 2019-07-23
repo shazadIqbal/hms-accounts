@@ -1,15 +1,22 @@
 package com.hs.accounts.Services;
 
+import com.hs.accounts.Commons.DashboardRestDTO;
 import com.hs.accounts.Commons.TransactionRestDTO;
 import com.hs.accounts.Commons.RestTemplateResponseDTO;
 import com.hs.accounts.DTO.TransactionsDTO;
 import com.hs.accounts.Model.Accounts;
 import com.hs.accounts.Model.Transactions;
 import com.hs.accounts.Model.Vendor;
+import com.hs.accounts.Repository.AccountsRepository;
 import com.hs.accounts.Repository.TransactionsRepository;
+import com.hs.accounts.Repository.VendorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transaction;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -23,6 +30,12 @@ public class TransactionService {
     AccountsService accountsService;
 
     @Autowired
+    VendorRepository vendorRepository;
+
+    @Autowired
+    AccountsRepository accountsRepository;
+
+    @Autowired
     VendorService vendorService;
 
     public RestTemplateResponseDTO postTransaction(TransactionRestDTO transactionRestDTO){
@@ -32,20 +45,8 @@ public class TransactionService {
         Accounts customerAccount = accountsService.getAccountsByUserId(transactionRestDTO.getAccountNoUUID());
         Accounts shareAccount = accountsService.getAccountsByUserId(transactionRestDTO.getShareAccountNo());
         Accounts vendorAccount = accountsService.getAccountsByUserName("Barkhia Hospital");
-    //    RestTemplateResponseDTO restTemplateResponseDTO = new RestTemplateResponseDTO();
-//        Accounts account = new Accounts();
-//        account.setId(1L);
-//        accounts.add(account);
 
-        //Customer Account
         if(customerAccount != null) {
-//            transactionsDTO.setCurrency("PKR");
-//            transactionsDTO.setDescription(transactionRestDTO.getDescription());
-//            transactionsDTO.setReceivedAmount(transactionRestDTO.getReceivedAmount());
-//            transactionsDTO.setTotalAmount(transactionRestDTO.getTotalAmount());
-//            transactionsDTO.setTransactionType(transactionRestDTO.getTransactionType());
-//            transactionsDTO.setOperationType(transactionRestDTO.getOperationType());
-//            transactionsDTO.setAccounts(accounts);
 
             //Transaction Object
             Transactions customerTransactions = new Transactions();
@@ -65,6 +66,7 @@ public class TransactionService {
             }
             customerTransactions.setReceivedAmount(transactionRestDTO.getReceivedAmount());
             customerTransactions.setTotalAmount(transactionRestDTO.getTotalAmount());
+            SimpleDateFormat simpleDateFormat=new SimpleDateFormat("yyyy/MM/dd");
             customerTransactions.setTransactionDate(new Date());
             customerTransactions.setTransactionType(transactionRestDTO.getTransactionType());
             customerTransactions.setOperationType(transactionRestDTO.getOperationType());
@@ -125,42 +127,6 @@ public class TransactionService {
     }
 
 
-//   // Insert Transactions in Database
-//    public String postTransaction(TransactionsDTO transactionsDTO){
-//
-//        Transactions transactions = new Transactions();
-//        transactions.setAccounts(transactionsDTO.getAccounts());
-//        transactions.setCurrency(transactionsDTO.getCurrency());
-//        transactions.setDescription(transactionsDTO.getDescription());
-//        transactions.setDues(transactionsDTO.getTotalAmount() - transactionsDTO.getReceivedAmount());
-//        transactions.setReceivedAmount(transactionsDTO.getReceivedAmount());
-//        transactions.setTotalAmount(transactionsDTO.getTotalAmount());
-//        transactions.setTransactionDate(new Date());
-//        transactions.setTransactionType(transactionsDTO.getTransactionType());
-//        transactions.setOperationType(transactionsDTO.getOperationType());
-//        transactionsRepository.save(transactions);
-//        return "{\"ADDED SUCCESFULLY\":1}";
-//    }
-
-//    public List<Transactions> getTransaction(){
-//        List<Transactions> transactions = transactionsRepository.findAll();
-//        List<Transactions> activeTransactions = new ArrayList<>();
-//        transactions.forEach(transaction -> {
-//            if(transaction.getStatus().equalsIgnoreCase("Active")){
-//                activeTransactions.add(transaction);
-//            }
-//        });
-//        return activeTransactions;
-//    }
-//    public String deleteTransactionsById(Long id){
-//        Optional<Transactions> transactions = transactionsRepository.findById(id);
-//        if(transactions.isPresent()){
-//            Transactions deleteTransaction = transactions.get();
-//            deleteTransaction.setStatus("Inactive");
-//            transactionsRepository.save(deleteTransaction);
-//        }
-//        return "{\"DELETED SUCCESFULLY\":1}";
-//    }
     public String updateTransactionsById(TransactionsDTO transactionsDTO, Long id){
         Optional<Transactions> transactions = transactionsRepository.findById(id);
         if(transactions.isPresent()){
@@ -227,6 +193,50 @@ public class TransactionService {
 
 
     }
+
+
+  public RestTemplateResponseDTO getDashboardByDateNaccount(DashboardRestDTO dashboardRestDTO)
+  {
+      if(dashboardRestDTO.getRole().equalsIgnoreCase("Hospital"))
+      {
+          Vendor obj=vendorRepository.findByName("Barkhia Hospital");
+
+          String account_no=obj.getAccountNo();
+
+          Accounts accounts=accountsRepository.findByUserId(account_no);
+
+//          SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+          List<Transactions> transactions=transactionsRepository.getByDateDurationNaccount(accounts.getId(),dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());//findByTransactionDateBetween(dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());//findByEffctDateAfterAndExpDateBefore(date, date); //getByDateDuration(dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());
+          return new RestTemplateResponseDTO("200","Get successfully",transactions);
+
+      }
+      return new RestTemplateResponseDTO("000","Transactions fetching failed!");
+  }
+
+    public RestTemplateResponseDTO getDashboardByDate(DashboardRestDTO dashboardRestDTO)
+    {
+        if(dashboardRestDTO.getRole().equalsIgnoreCase("Hospital"))
+        {
+
+
+//          SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            List<Transactions> transactions=transactionsRepository.getByDateDuration(dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());//findByTransactionDateBetween(dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());//findByEffctDateAfterAndExpDateBefore(date, date); //getByDateDuration(dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());
+            return new RestTemplateResponseDTO("200","Get successfully",transactions);
+
+        }
+        return new RestTemplateResponseDTO("000","Transactions fetching failed!");
+    }
+
+//    public  Date getDateWithoutTimeUsingFormat(Date date) {
+//        SimpleDateFormat formatter = new SimpleDateFormat(
+//                "dd/MM/yyyy");
+//        try {
+//            return formatter.parse(formatter.format(date));
+//        } catch (ParseException e) {
+//            e.printStackTrace();
+//        }
+//        return null;
+//    }
 
 
 }
