@@ -1,9 +1,12 @@
 package com.hs.accounts.Controller;
 
+import com.hs.accounts.Commons.DashboardRestDTO;
 import com.hs.accounts.Commons.TransactionRestDTO;
 import com.hs.accounts.Commons.RestTemplateResponseDTO;
 import com.hs.accounts.DTO.TransactionsDTO;
+import com.hs.accounts.Model.Accounts;
 import com.hs.accounts.Model.Transactions;
+import com.hs.accounts.Model.Vendor;
 import com.hs.accounts.Services.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -64,6 +67,20 @@ public class TransactionsController {
     public RestTemplateResponseDTO updateTransactionDues(@PathVariable("id") Long id,@RequestBody TransactionsDTO transactionsDTO)
     {
         return transactionService.updateTransactionDues(id,transactionsDTO);
+    }
+
+
+    @PostMapping("/dashboard/account")
+    public RestTemplateResponseDTO getDashboardReportsByDateNaccount(@RequestBody DashboardRestDTO dashboardRestDTO)
+    {
+        return transactionService.getDashboardByDateNaccount(dashboardRestDTO);
+    }
+
+
+    @PostMapping("/dashboard/all")
+    public RestTemplateResponseDTO getDashboardByDate(@RequestBody DashboardRestDTO dashboardRestDTO)
+    {
+        return transactionService.getDashboardByDate(dashboardRestDTO);
     }
 
 }

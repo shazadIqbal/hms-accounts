@@ -14,6 +14,7 @@ public class Transactions {
     @Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private Long id;
+    @Temporal(TemporalType.DATE)
     private Date transactionDate;
     private Double receivedAmount;
     private Double totalAmount;
