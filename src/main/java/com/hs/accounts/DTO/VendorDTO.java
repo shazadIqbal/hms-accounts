@@ -10,17 +10,58 @@ public class VendorDTO {
     private Date startDate;
     private Date endDate;
     private Integer sharePercent;
+    private String CreatedBy;
+    private String UpdatedBy;
+    private Date CreatedAt;
+    private Date UpdateAt;
 
     public VendorDTO() {
     }
 
-    public VendorDTO(Long id, String name, String accountNo, String description, Date startDate, Date endDate,Integer sharePercent) {
+    public VendorDTO(Long id, String name, String accountNo, String description, Date startDate, Date endDate, Integer sharePercent, String createdBy, String updatedBy, Date createdAt, Date updateAt) {
         this.id = id;
         this.name = name;
         this.accountNo = accountNo;
         this.description = description;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.sharePercent = sharePercent;
+        CreatedBy = createdBy;
+        UpdatedBy = updatedBy;
+        CreatedAt = createdAt;
+        UpdateAt = updateAt;
+    }
+
+    public String getCreatedBy() {
+        return CreatedBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        CreatedBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return UpdatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        UpdatedBy = updatedBy;
+    }
+
+    public Date getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public Date getUpdateAt() {
+        return UpdateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        UpdateAt = updateAt;
     }
 
     public Long getId() {

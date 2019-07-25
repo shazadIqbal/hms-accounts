@@ -32,6 +32,8 @@ public class AccountsService {
        accounts.setUserId(accountRestDTO.getId());
        accounts.setAccountType(accountRestDTO.getAccountType());
        accounts.setCreatedDate(new Date());
+       accounts.setCreatedAt(accountRestDTO.getCreatedAt());
+       accounts.setCreatedBy(accountRestDTO.getCreatedBy());
        accounts.setGender(accountRestDTO.getGender());
        accounts.setStatus("Active");
        accounts.setUserName(accountRestDTO.getName());
@@ -57,6 +59,8 @@ public class AccountsService {
             Accounts _accounts = accounts.get();
             _accounts.setUserId(accountsDTO.getUserId());
             _accounts.setUserName(accountsDTO.getUserName());
+            _accounts.setUpdatedBy(accountsDTO.getUpdatedBy());
+            _accounts.setUpdateAt(_accounts.getUpdateAt());
             _accounts.setStatus(accountsDTO.getStatus());
             _accounts.setGender(accountsDTO.getGender());
             _accounts.setAccountType(accountsDTO.getAccountType());

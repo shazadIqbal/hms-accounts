@@ -31,11 +31,11 @@ public interface TransactionsRepository extends JpaRepository<Transactions,Long>
     @Modifying
      void deleteByTransactionRefId(String refId);
 
-    @Query(value = "select * from transactions where account_id=:id AND transaction_date between :from AND :till",nativeQuery = true)
+    @Query(value = "select * from transactions where account_id=:id AND transaction_date between :from AND :till order by transaction_date",nativeQuery = true)
    public List<Transactions> getByDateDurationNaccount(@Param("id") Long id, @Param("from") String  from,@Param("till") String till);
 
 
-    @Query(value = "select * from transactions where  transaction_date between :from AND :till",nativeQuery = true)
+    @Query(value = "select * from transactions where  transaction_date between :from AND :till order by transaction_date",nativeQuery = true)
     public List<Transactions> getByDateDuration( @Param("from") String  from,@Param("till") String till);
   //  List<Transactions> findByStartDateBetween(Date from, Date till);
 

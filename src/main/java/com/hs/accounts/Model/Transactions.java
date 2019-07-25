@@ -24,6 +24,10 @@ public class Transactions {
     String transactionRefId;
     private String operationType;
     private Double dues;
+    private String CreatedBy;
+    private String UpdatedBy;
+    private Date CreatedAt;
+    private Date UpdateAt;
     //String Transaction ref ID
 
 //    @ManyToMany(mappedBy = "transactions")
@@ -35,6 +39,56 @@ public class Transactions {
     public Transactions() {
     }
 
+
+    public Transactions(Date transactionDate, Double receivedAmount, Double totalAmount, String transactionType, String description, String currency, String transactionRefId, String operationType, Double dues, String createdBy, String updatedBy, Date createdAt, Date updateAt, Accounts accounts) {
+        this.transactionDate = transactionDate;
+        this.receivedAmount = receivedAmount;
+        this.totalAmount = totalAmount;
+        this.transactionType = transactionType;
+        this.description = description;
+        this.currency = currency;
+        this.transactionRefId = transactionRefId;
+        this.operationType = operationType;
+        this.dues = dues;
+        CreatedBy = createdBy;
+        UpdatedBy = updatedBy;
+        CreatedAt = createdAt;
+        UpdateAt = updateAt;
+        this.accounts = accounts;
+    }
+
+
+    public String getCreatedBy() {
+        return CreatedBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        CreatedBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return UpdatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        UpdatedBy = updatedBy;
+    }
+
+    public Date getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public Date getUpdateAt() {
+        return UpdateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        UpdateAt = updateAt;
+    }
 
     public String getTransactionRefId() {
         return transactionRefId;

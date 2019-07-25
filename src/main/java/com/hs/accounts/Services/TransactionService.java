@@ -52,6 +52,9 @@ public class TransactionService {
             Transactions customerTransactions = new Transactions();
             customerTransactions.setCurrency("PKR");
             customerTransactions.setAccounts(customerAccount);
+            customerTransactions.setCreatedAt(transactionRestDTO.getCreatedAt());
+            customerTransactions.setCreatedBy(transactionRestDTO.getCreatedBy());
+
             customerTransactions.setTransactionRefId(transactionRestDTO.getTransactionRefId());
             // set transaction ref id
             customerTransactions.setDescription(transactionRestDTO.getDescription());
@@ -79,6 +82,8 @@ public class TransactionService {
         //Transaction Object
         Transactions shareTransactions = new Transactions();
         shareTransactions.setCurrency("PKR");
+        shareTransactions.setCreatedAt(transactionRestDTO.getCreatedAt());
+        shareTransactions.setCreatedBy(transactionRestDTO.getCreatedBy());
         shareTransactions.setAccounts(shareAccount);
         shareTransactions.setDescription(transactionRestDTO.getShareDescription());
         shareTransactions.setDues(0.0);
@@ -107,6 +112,8 @@ public class TransactionService {
                 vendorTransactions.setAccounts(vendorAccount);
                 vendorTransactions.setDescription(vendorDescription(customerAccount, vendorAccount));
                 vendorTransactions.setDues(0.0);
+            vendorTransactions.setCreatedAt(transactionRestDTO.getCreatedAt());
+            vendorTransactions.setCreatedBy(transactionRestDTO.getCreatedBy());
                 vendorTransactions.setReceivedAmount(0.0);
                 vendorTransactions.setTotalAmount(transactionRestDTO.getTotalAmount() - (transactionRestDTO.getTotalAmount() * (transactionRestDTO.getSharePercent().doubleValue() / 100)));
                 vendorTransactions.setTransactionDate(new Date());
@@ -139,6 +146,8 @@ public class TransactionService {
             _transaction.setTotalAmount(transactionsDTO.getTotalAmount());
             _transaction.setTransactionDate(transactionsDTO.getTransactionDate());
             _transaction.setTransactionType(transactionsDTO.getTransactionType());
+            _transaction.setUpdateAt(transactionsDTO.getUpdateAt());
+            _transaction.setUpdatedBy(transactionsDTO.getUpdatedBy());
 
             transactionsRepository.save(_transaction);
         }
@@ -183,6 +192,8 @@ public class TransactionService {
             Transactions trans=obj.get();
 
             trans.setDues(transactionsDTO.getDues());
+            trans.setUpdatedBy(transactionsDTO.getUpdatedBy());
+            trans.setUpdateAt(transactionsDTO.getUpdateAt());
             trans.setReceivedAmount(transactionsDTO.getReceivedAmount());
 
             transactionsRepository.save(trans);
@@ -227,16 +238,6 @@ public class TransactionService {
         return new RestTemplateResponseDTO("000","Transactions fetching failed!");
     }
 
-//    public  Date getDateWithoutTimeUsingFormat(Date date) {
-//        SimpleDateFormat formatter = new SimpleDateFormat(
-//                "dd/MM/yyyy");
-//        try {
-//            return formatter.parse(formatter.format(date));
-//        } catch (ParseException e) {
-//            e.printStackTrace();
-//        }
-//        return null;
-//    }
 
 
 }
