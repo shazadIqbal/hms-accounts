@@ -19,8 +19,28 @@ public class Accounts {
         private String accountType;
         private Date createdDate;
         private Date endDate;
+    private String CreatedBy;
+    private String UpdatedBy;
+    private Date CreatedAt;
+    private Date UpdateAt;
 
-//    @ManyToMany(cascade = CascadeType.ALL)
+
+    public Accounts(String userId, String userName, String gender, String status, String accountType, Date createdDate, Date endDate, String createdBy, String updatedBy, Date createdAt, Date updateAt, List<Transactions> transactions) {
+        this.userId = userId;
+        this.userName = userName;
+        this.gender = gender;
+        this.status = status;
+        this.accountType = accountType;
+        this.createdDate = createdDate;
+        this.endDate = endDate;
+        CreatedBy = createdBy;
+        UpdatedBy = updatedBy;
+        CreatedAt = createdAt;
+        UpdateAt = updateAt;
+        this.transactions = transactions;
+    }
+
+    //    @ManyToMany(cascade = CascadeType.ALL)
 //    @JoinTable(name = "accounts_transaction", joinColumns = @JoinColumn(name = "account_id", referencedColumnName = "id"),
 //            inverseJoinColumns = @JoinColumn(name = "transaction_id", referencedColumnName = "id"))
 
@@ -36,6 +56,38 @@ public class Accounts {
 
     public void setTransactions(List<Transactions> transactions) {
         this.transactions = transactions;
+    }
+
+    public String getCreatedBy() {
+        return CreatedBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        CreatedBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return UpdatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        UpdatedBy = updatedBy;
+    }
+
+    public Date getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public Date getUpdateAt() {
+        return UpdateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        UpdateAt = updateAt;
     }
 
     public Long getId() {

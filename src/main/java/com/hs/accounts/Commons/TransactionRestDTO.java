@@ -1,5 +1,7 @@
 package com.hs.accounts.Commons;
 
+import java.util.Date;
+
 public class TransactionRestDTO {
     Double   totalAmount;
     String   accountNoUUID;
@@ -11,6 +13,10 @@ public class TransactionRestDTO {
     String shareAccountNo;
     Integer sharePercent;
     String transactionRefId;
+    private String CreatedBy;
+    private String UpdatedBy;
+    private Date CreatedAt;
+    private Date UpdateAt;
 
 
     // String transation reffId
@@ -18,7 +24,8 @@ public class TransactionRestDTO {
     public TransactionRestDTO() {
     }
 
-    public TransactionRestDTO(String transactionRefId,Double totalAmount, String accountNoUUID, Double receivedAmount, String description, String operationType, String transactionType, String shareDescription, String shareAccountNo, Integer sharePercent) {
+
+    public TransactionRestDTO(Double totalAmount, String accountNoUUID, Double receivedAmount, String description, String operationType, String transactionType, String shareDescription, String shareAccountNo, Integer sharePercent, String transactionRefId, String createdBy, String updatedBy, Date createdAt, Date updateAt) {
         this.totalAmount = totalAmount;
         this.accountNoUUID = accountNoUUID;
         this.receivedAmount = receivedAmount;
@@ -28,6 +35,43 @@ public class TransactionRestDTO {
         this.shareDescription = shareDescription;
         this.shareAccountNo = shareAccountNo;
         this.sharePercent = sharePercent;
+        this.transactionRefId = transactionRefId;
+        CreatedBy = createdBy;
+        UpdatedBy = updatedBy;
+        CreatedAt = createdAt;
+        UpdateAt = updateAt;
+    }
+
+    public String getCreatedBy() {
+        return CreatedBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        CreatedBy = createdBy;
+    }
+
+    public String getUpdatedBy() {
+        return UpdatedBy;
+    }
+
+    public void setUpdatedBy(String updatedBy) {
+        UpdatedBy = updatedBy;
+    }
+
+    public Date getCreatedAt() {
+        return CreatedAt;
+    }
+
+    public void setCreatedAt(Date createdAt) {
+        CreatedAt = createdAt;
+    }
+
+    public Date getUpdateAt() {
+        return UpdateAt;
+    }
+
+    public void setUpdateAt(Date updateAt) {
+        UpdateAt = updateAt;
     }
 
     public String getTransactionRefId() {
