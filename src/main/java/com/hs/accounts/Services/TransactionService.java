@@ -239,7 +239,19 @@ public class TransactionService {
     }
 
 
+    public RestTemplateResponseDTO gatAllTransactions(DashboardRestDTO dashboardRestDTO) {
+        if(dashboardRestDTO.getRole() == null){
+            //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            List<Transactions> transactions = transactionsRepository.getByDateDuration(dashboardRestDTO.getFrom(), dashboardRestDTO.getTill());
+            return new RestTemplateResponseDTO("200","Get successfully", transactions);
+        }
+        else if(dashboardRestDTO.getRole()  != null) {
+            List<Transactions> transactions = transactionsRepository.getByUserName(dashboardRestDTO.getRole(), dashboardRestDTO.getFrom(), dashboardRestDTO.getTill());
+            return new RestTemplateResponseDTO("200", "Get Successfully", transactions);
+        }
 
+        return new RestTemplateResponseDTO("000","Transactions fetching failed!!");
+    }
 }
 
 
