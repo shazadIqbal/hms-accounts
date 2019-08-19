@@ -83,6 +83,11 @@ public class TransactionsController {
         return transactionService.getDashboardByDate(dashboardRestDTO);
     }
 
+    @PostMapping("/dashboard/employeereports")
+    public RestTemplateResponseDTO getAllTransactions(@RequestBody DashboardRestDTO dashboardRestDTO){
+        return transactionService.gatAllTransactions(dashboardRestDTO);
+    }
+
 }
 
 
