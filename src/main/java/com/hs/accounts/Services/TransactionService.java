@@ -16,10 +16,12 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transaction;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class TransactionService {
@@ -238,7 +240,77 @@ public class TransactionService {
         return new RestTemplateResponseDTO("000","Transactions fetching failed!");
     }
 
+    public RestTemplateResponseDTO getAllHospitalTransactions(DashboardRestDTO dashboardRestDTO){
+        Vendor obj=vendorRepository.findByName("Barkhia Hospital");
+        if(dashboardRestDTO.getRole() == null){
 
+
+            String account_no=obj.getAccountNo();
+
+            Accounts accounts = accountsRepository.findByUserId(account_no);
+            List<Transactions> transactions = transactionsRepository.getByDateDurationNaccount(accounts.getId(),dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());
+
+            return new RestTemplateResponseDTO("200","Get successfully",transactions);
+
+        }
+        else if(dashboardRestDTO.getRole()!= null){
+
+            String account_no = obj.getAccountNo();
+
+            Accounts accounts = accountsRepository.findByUserId(account_no);
+            List<Transactions> transactions = transactionsRepository.getByOperationTypeAndAccounts(accounts.getId(),dashboardRestDTO.getRole(),dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());
+
+            return new RestTemplateResponseDTO("200","Get successfully",transactions);
+        }
+        else {
+            return new RestTemplateResponseDTO("000", "Transactions fetching failed!");
+        }
+    }
+
+
+    public RestTemplateResponseDTO getAllDoctorTransactions(DashboardRestDTO dashboardRestDTO) throws Exception {
+        if(dashboardRestDTO.getRole() == null) {
+            Date  dateFrom = dateformatter(dashboardRestDTO.getFrom());
+            Date  dateTill = dateformatter(dashboardRestDTO.getTill());
+            List<Accounts> accounts = accountsRepository.findByAccountType("Doctor Account");
+            List<Transactions> doctorTransaction = new ArrayList<>();
+            for (Accounts account : accounts) {
+                List<Transactions> datedTransactions = account.getTransactions().stream().filter(t-> {
+
+                    boolean flag = (t.getTransactionDate().equals(dateFrom) && t.getTransactionDate().equals(dateTill)) || (t.getTransactionDate().after(dateFrom) && t.getTransactionDate().before(dateTill));
+
+                    return flag;
+                }).collect(Collectors.toList());//(t.getTransactionDate().getTime() >= dateFrom.getTime() && t.getTransactionDate().getTime()<= dateTill.getTime())).collect(Collectors.toList());
+                if(datedTransactions != null){
+                    doctorTransaction.addAll(datedTransactions);
+                }
+
+            }
+
+            return new RestTemplateResponseDTO("200","Get successfully",doctorTransaction);
+        }
+        else if(dashboardRestDTO.getRole() != null){
+            Accounts obj = accountsRepository.findByUserId(dashboardRestDTO.getRole());
+
+            if(obj == null){
+                return new RestTemplateResponseDTO("000", "Transactions fetching failed!");
+            }
+            else{
+             Long account_id = obj.getId();
+
+             List<Transactions> doctorTransactions = transactionsRepository.getByDateDurationNaccount(account_id,dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());
+
+            return new RestTemplateResponseDTO("200","Get successfully",doctorTransactions);
+        }
+        }
+        else{
+            return new RestTemplateResponseDTO("000", "Transactions fetching failed!");
+        }
+    }
+    public Date dateformatter(String strDate) throws Exception {
+        Date date1=new SimpleDateFormat("yyyy/MM/dd").parse(strDate);
+        return date1;
+    }
 
 }
 

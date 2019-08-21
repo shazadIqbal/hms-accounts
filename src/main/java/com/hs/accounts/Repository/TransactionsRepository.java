@@ -39,6 +39,8 @@ public interface TransactionsRepository extends JpaRepository<Transactions,Long>
     public List<Transactions> getByDateDuration( @Param("from") String  from,@Param("till") String till);
   //  List<Transactions> findByStartDateBetween(Date from, Date till);
 
+    @Query(value = "select * from transactions where account_id=:id and (operation_type=:role and (transaction_date between :from and :till)) order by transaction_date",nativeQuery = true)
+    public List<Transactions> getByOperationTypeAndAccounts( @Param("id") Long id,@Param("role") String role , @Param("from") String from,@Param("till") String till);
    // List<Transactions> findByTransactionDateBetween(Date from, Date till);
 
     //List<Transactions> findByAccountIdANDTransactionDateBetween(int i, Date from, Date till);

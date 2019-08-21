@@ -77,10 +77,29 @@ public class TransactionsController {
     }
 
 
+
+
     @PostMapping("/dashboard/all")
     public RestTemplateResponseDTO getDashboardByDate(@RequestBody DashboardRestDTO dashboardRestDTO)
     {
         return transactionService.getDashboardByDate(dashboardRestDTO);
+    }
+
+    @PostMapping("/dashboard/hospitalreports")
+    public RestTemplateResponseDTO getAllHospitalReports(@RequestBody DashboardRestDTO dashboardRestDTO)
+    {
+        return transactionService.getAllHospitalTransactions(dashboardRestDTO);
+    }
+
+    @PostMapping("dashboard/doctortransactions")
+    public  RestTemplateResponseDTO getAllDoctorTransactions(@RequestBody DashboardRestDTO dashboardRestDTO)
+    {
+        try {
+            return  transactionService.getAllDoctorTransactions(dashboardRestDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }
