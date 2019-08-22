@@ -85,6 +85,7 @@ public class TransactionsController {
         return transactionService.getDashboardByDate(dashboardRestDTO);
     }
 
+
     @PostMapping("/dashboard/hospitalreports")
     public RestTemplateResponseDTO getAllHospitalReports(@RequestBody DashboardRestDTO dashboardRestDTO)
     {
@@ -92,16 +93,20 @@ public class TransactionsController {
     }
 
     @PostMapping("dashboard/doctortransactions")
-    public  RestTemplateResponseDTO getAllDoctorTransactions(@RequestBody DashboardRestDTO dashboardRestDTO)
-    {
+    public  RestTemplateResponseDTO getAllDoctorTransactions(@RequestBody DashboardRestDTO dashboardRestDTO) {
         try {
-            return  transactionService.getAllDoctorTransactions(dashboardRestDTO);
+            return transactionService.getAllDoctorTransactions(dashboardRestDTO);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    @PostMapping("/dashboard/employeereports")
+    public RestTemplateResponseDTO getAllTransactions(@RequestBody DashboardRestDTO dashboardRestDTO){
+        return transactionService.gatAllTransactions(dashboardRestDTO);
+
+    }
 }
 
 

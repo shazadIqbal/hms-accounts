@@ -244,6 +244,21 @@ public class TransactionService {
         Vendor obj=vendorRepository.findByName("Barkhia Hospital");
         if(dashboardRestDTO.getRole() == null){
 
+    public RestTemplateResponseDTO gatAllTransactions(DashboardRestDTO dashboardRestDTO) {
+        if(dashboardRestDTO.getRole() == null){
+            //SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+            List<Transactions> transactions = transactionsRepository.getByDateDuration(dashboardRestDTO.getFrom(), dashboardRestDTO.getTill());
+            return new RestTemplateResponseDTO("200","Get successfully", transactions);
+        }
+        else if(dashboardRestDTO.getRole()  != null) {
+            List<Transactions> transactions = transactionsRepository.getByUserName(dashboardRestDTO.getRole(), dashboardRestDTO.getFrom(), dashboardRestDTO.getTill());
+            return new RestTemplateResponseDTO("200", "Get Successfully", transactions);
+        }
+
+
+            return new RestTemplateResponseDTO("000","Transactions fetching failed!!");
+        }
+
 
             String account_no=obj.getAccountNo();
 
@@ -296,12 +311,12 @@ public class TransactionService {
                 return new RestTemplateResponseDTO("000", "Transactions fetching failed!");
             }
             else{
-             Long account_id = obj.getId();
+                Long account_id = obj.getId();
 
-             List<Transactions> doctorTransactions = transactionsRepository.getByDateDurationNaccount(account_id,dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());
+                List<Transactions> doctorTransactions = transactionsRepository.getByDateDurationNaccount(account_id,dashboardRestDTO.getFrom(),dashboardRestDTO.getTill());
 
-            return new RestTemplateResponseDTO("200","Get successfully",doctorTransactions);
-        }
+                return new RestTemplateResponseDTO("200","Get successfully",doctorTransactions);
+            }
         }
         else{
             return new RestTemplateResponseDTO("000", "Transactions fetching failed!");
@@ -311,6 +326,7 @@ public class TransactionService {
         Date date1=new SimpleDateFormat("yyyy/MM/dd").parse(strDate);
         return date1;
     }
+
 
 }
 
