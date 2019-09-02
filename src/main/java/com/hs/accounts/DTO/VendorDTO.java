@@ -119,4 +119,5 @@ public class VendorDTO {
     public void setSharePercent(Integer sharePercent) {
         this.sharePercent = sharePercent;
     }
+
 }

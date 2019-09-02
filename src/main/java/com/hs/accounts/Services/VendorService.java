@@ -35,6 +35,7 @@ public class VendorService {
         vendor.setDescription(vendorDTO.getDescription());
         vendor.setAccountNo(corrId.toString());
         vendor.setSharePercent(vendorDTO.getSharePercent());
+        vendor.setCreatedAt(new Date());
         vendorRepository.save(vendor);
 
         //Create Vendor Account
