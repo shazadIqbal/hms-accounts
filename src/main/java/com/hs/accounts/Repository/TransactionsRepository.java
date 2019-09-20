@@ -47,4 +47,11 @@ public interface TransactionsRepository extends JpaRepository<Transactions,Long>
     //List<Transactions> findByAccountIdANDTransactionDateBetween(int i, Date from, Date till);
 
     //List<Transactions> findByAccount_IdANDTransactionDateBetween(int i, Date from, Date till);
+
+    @Query(value = "select * from transactions where transaction_date between :from AND :till AND flag = TRUE AND transaction_type = \"debit\" order by transaction_date",nativeQuery = true)
+    public List<Transactions> getFaultyReportsByDateDuration( @Param("from") String from, @Param("till") String till );
+
+    @Query(value = "select * from transactions where created_by=:role AND transaction_date between :from AND :till AND flag = TRUE AND transaction_type = \"debit\" order by transaction_date",nativeQuery = true)
+    public List<Transactions> getFaultyReportsByUserName(@Param("role") String role, @Param("from") String  from,@Param("till") String till);
+
 }
