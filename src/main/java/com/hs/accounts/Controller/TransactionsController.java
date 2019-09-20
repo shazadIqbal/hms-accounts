@@ -107,6 +107,11 @@ public class TransactionsController {
         return transactionService.gatAllTransactions(dashboardRestDTO);
 
     }
+
+    @PostMapping("/dashboard/faultyreports")
+    public RestTemplateResponseDTO getAllFaultyTransactions(@RequestBody DashboardRestDTO dashboardRestDTO){
+        return transactionService.getAllFaultyTransactions(dashboardRestDTO);
+    }
 }
 
 

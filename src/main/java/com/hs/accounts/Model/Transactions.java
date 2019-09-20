@@ -28,6 +28,7 @@ public class Transactions {
     private String UpdatedBy;
     private Date CreatedAt;
     private Date UpdateAt;
+    private boolean flag;
     //String Transaction ref ID
 
 //    @ManyToMany(mappedBy = "transactions")
@@ -40,7 +41,7 @@ public class Transactions {
     }
 
 
-    public Transactions(Date transactionDate, Double receivedAmount, Double totalAmount, String transactionType, String description, String currency, String transactionRefId, String operationType, Double dues, String createdBy, String updatedBy, Date createdAt, Date updateAt, Accounts accounts) {
+    public Transactions(Date transactionDate, Double receivedAmount, Double totalAmount, String transactionType, String description, String currency, String transactionRefId, String operationType, Double dues, String createdBy, String updatedBy, Date createdAt, Date updateAt, boolean flag, Accounts accounts) {
         this.transactionDate = transactionDate;
         this.receivedAmount = receivedAmount;
         this.totalAmount = totalAmount;
@@ -50,6 +51,7 @@ public class Transactions {
         this.transactionRefId = transactionRefId;
         this.operationType = operationType;
         this.dues = dues;
+        this.flag = flag;
         CreatedBy = createdBy;
         UpdatedBy = updatedBy;
         CreatedAt = createdAt;
@@ -179,4 +181,11 @@ public class Transactions {
     }
 
 
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 }

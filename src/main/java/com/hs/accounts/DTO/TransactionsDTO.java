@@ -21,11 +21,12 @@ public class TransactionsDTO {
     private String UpdatedBy;
     private Date CreatedAt;
     private Date UpdateAt;
+    private boolean flag;
 
     public TransactionsDTO() {
     }
 
-    public TransactionsDTO(Long id, Date transactionDate, Double receivedAmount, Double totalAmount, String transactionType, String description, String currency, String operationType, Double dues, String transactionRefId, Accounts accounts, String createdBy, String updatedBy, Date createdAt, Date updateAt) {
+    public TransactionsDTO(Long id, Date transactionDate, Double receivedAmount, Double totalAmount, String transactionType, String description, String currency, String operationType, Double dues, String transactionRefId, Accounts accounts, String createdBy, String updatedBy, Date createdAt, Date updateAt, boolean flag) {
         this.id = id;
         this.transactionDate = transactionDate;
         this.receivedAmount = receivedAmount;
@@ -37,6 +38,7 @@ public class TransactionsDTO {
         this.dues = dues;
         this.transactionRefId = transactionRefId;
         this.accounts = accounts;
+        this.flag = flag;
         CreatedBy = createdBy;
         UpdatedBy = updatedBy;
         CreatedAt = createdAt;
@@ -163,5 +165,11 @@ public class TransactionsDTO {
         this.accounts = accounts;
     }
 
+    public boolean isFlag() {
+        return flag;
+    }
 
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
 }

@@ -56,6 +56,7 @@ public class TransactionService {
             customerTransactions.setAccounts(customerAccount);
             customerTransactions.setCreatedAt(transactionRestDTO.getCreatedAt());
             customerTransactions.setCreatedBy(transactionRestDTO.getCreatedBy());
+            customerTransactions.setFlag(transactionRestDTO.isFlag());
 
             customerTransactions.setTransactionRefId(transactionRestDTO.getTransactionRefId());
             // set transaction ref id
@@ -86,6 +87,7 @@ public class TransactionService {
         shareTransactions.setCurrency("PKR");
         shareTransactions.setCreatedAt(transactionRestDTO.getCreatedAt());
         shareTransactions.setCreatedBy(transactionRestDTO.getCreatedBy());
+        shareTransactions.setFlag(transactionRestDTO.isFlag());
         shareTransactions.setAccounts(shareAccount);
         shareTransactions.setDescription(transactionRestDTO.getShareDescription());
         shareTransactions.setDues(0.0);
@@ -252,7 +254,18 @@ public class TransactionService {
         return new RestTemplateResponseDTO("000","Transactions fetching failed!!");
     }
 
+    public RestTemplateResponseDTO getAllFaultyTransactions(DashboardRestDTO dashboardRestDTO) {
+        if (dashboardRestDTO.getRole() == null) {
+            List<Transactions> transactions = transactionsRepository.getFaultyReportsByDateDuration(dashboardRestDTO.getFrom(), dashboardRestDTO.getTill());
+            return new RestTemplateResponseDTO("200","Get successfully", transactions);
+        }
+        else if(dashboardRestDTO.getRole()  != null) {
+            List<Transactions> transactions = transactionsRepository.getFaultyReportsByUserName(dashboardRestDTO.getRole(), dashboardRestDTO.getFrom(), dashboardRestDTO.getTill());
+            return new RestTemplateResponseDTO("200", "Get Successfully", transactions);
+        }
 
+        return new RestTemplateResponseDTO("000","Transactions fetching failed!!");
+    }
 
     public RestTemplateResponseDTO getAllHospitalTransactions(DashboardRestDTO dashboardRestDTO){
         Vendor obj=vendorRepository.findByName("Barkhia Hospital");

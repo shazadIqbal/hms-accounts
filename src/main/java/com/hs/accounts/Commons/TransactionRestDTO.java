@@ -17,6 +17,7 @@ public class TransactionRestDTO {
     private String UpdatedBy;
     private Date CreatedAt;
     private Date UpdateAt;
+    private boolean flag;
 
 
     // String transation reffId
@@ -25,7 +26,7 @@ public class TransactionRestDTO {
     }
 
 
-    public TransactionRestDTO(Double totalAmount, String accountNoUUID, Double receivedAmount, String description, String operationType, String transactionType, String shareDescription, String shareAccountNo, Integer sharePercent, String transactionRefId, String createdBy, String updatedBy, Date createdAt, Date updateAt) {
+    public TransactionRestDTO(Double totalAmount, String accountNoUUID, Double receivedAmount, String description, String operationType, String transactionType, String shareDescription, String shareAccountNo, Integer sharePercent, String transactionRefId, String createdBy, String updatedBy, Date createdAt, Date updateAt, boolean flag) {
         this.totalAmount = totalAmount;
         this.accountNoUUID = accountNoUUID;
         this.receivedAmount = receivedAmount;
@@ -40,6 +41,7 @@ public class TransactionRestDTO {
         UpdatedBy = updatedBy;
         CreatedAt = createdAt;
         UpdateAt = updateAt;
+        this.flag = flag;
     }
 
     public String getCreatedBy() {
@@ -152,5 +154,13 @@ public class TransactionRestDTO {
 
     public void setSharePercent(Integer sharePercent) {
         this.sharePercent = sharePercent;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
     }
 }
