@@ -254,6 +254,7 @@ public class TransactionService {
         return new RestTemplateResponseDTO("000","Transactions fetching failed!!");
     }
 
+
     public RestTemplateResponseDTO getAllFaultyTransactions(DashboardRestDTO dashboardRestDTO) {
         if (dashboardRestDTO.getRole() == null) {
             List<Transactions> transactions = transactionsRepository.getFaultyReportsByDateDuration(dashboardRestDTO.getFrom(), dashboardRestDTO.getTill());
@@ -266,6 +267,7 @@ public class TransactionService {
 
         return new RestTemplateResponseDTO("000","Transactions fetching failed!!");
     }
+
 
     public RestTemplateResponseDTO getAllHospitalTransactions(DashboardRestDTO dashboardRestDTO){
         Vendor obj=vendorRepository.findByName("Barkhia Hospital");
