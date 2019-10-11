@@ -26,29 +26,34 @@ public class VendorService {
     private UUID corrId;
 
     public RestTemplateResponseDTO postVendor(VendorDTO vendorDTO){
+        Vendor isexist = vendorRepository.findByName(vendorDTO.getName());
+        if(isexist == null) {
+            //Create Vendor
+            corrId = UUID.randomUUID();
+            Vendor vendor = new Vendor();
+            vendor.setName(vendorDTO.getName());
+            vendor.setStartDate(new Date());
+            vendor.setDescription(vendorDTO.getDescription());
+            vendor.setAccountNo(corrId.toString());
+            vendor.setSharePercent(vendorDTO.getSharePercent());
+            vendor.setCreatedAt(new Date());
+            vendorRepository.save(vendor);
 
-        //Create Vendor
-        corrId = UUID.randomUUID();
-        Vendor vendor = new Vendor();
-        vendor.setName(vendorDTO.getName());
-        vendor.setStartDate(new Date());
-        vendor.setDescription(vendorDTO.getDescription());
-        vendor.setAccountNo(corrId.toString());
-        vendor.setSharePercent(vendorDTO.getSharePercent());
-        vendor.setCreatedAt(new Date());
-        vendorRepository.save(vendor);
-
-        //Create Vendor Account
-        Accounts accounts = new Accounts();
-        accounts.setUserId(vendor.getAccountNo());
-        accounts.setAccountType("Vendor Account");
-        accounts.setCreatedDate(new Date());
-        accounts.setGender("");
-        accounts.setStatus("Active");
-        accounts.setUserName(vendor.getName());
-        //accounts.setTransactions(accountRestDTO.getTransactions());
-        accountsRepository.save(accounts);
-        return new RestTemplateResponseDTO("200","successfull");
+            //Create Vendor Account
+            Accounts accounts = new Accounts();
+            accounts.setUserId(vendor.getAccountNo());
+            accounts.setAccountType("Vendor Account");
+            accounts.setCreatedDate(new Date());
+            accounts.setGender("");
+            accounts.setStatus("Active");
+            accounts.setUserName(vendor.getName());
+            //accounts.setTransactions(accountRestDTO.getTransactions());
+            accountsRepository.save(accounts);
+            return new RestTemplateResponseDTO("200", "successfull");
+        }
+        else {
+            return new RestTemplateResponseDTO("200", "Vendor Already exists");
+        }
 
     }
     public Vendor getVendorByAccountNo(String accountNo){
