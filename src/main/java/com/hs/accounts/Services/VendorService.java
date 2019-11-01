@@ -26,11 +26,10 @@ public class VendorService {
     private UUID corrId;
 
     public RestTemplateResponseDTO postVendor(VendorDTO vendorDTO){
-
-        //Create Vendor
-        corrId = UUID.randomUUID();
-        Vendor ifExist = vendorRepository.findByName(vendorDTO.getName());
-        if(ifExist == null) {
+        Vendor isexist = vendorRepository.findByName(vendorDTO.getName());
+        if(isexist == null) {
+            //Create Vendor
+            corrId = UUID.randomUUID();
             Vendor vendor = new Vendor();
             vendor.setName(vendorDTO.getName());
             vendor.setStartDate(new Date());
@@ -50,11 +49,12 @@ public class VendorService {
             accounts.setUserName(vendor.getName());
             //accounts.setTransactions(accountRestDTO.getTransactions());
             accountsRepository.save(accounts);
-            return new RestTemplateResponseDTO("200","successfull");
-        } else {
-            return new RestTemplateResponseDTO("200","Vendor already exists!!!");
-        }
 
+            return new RestTemplateResponseDTO("200", "successfull");
+        }
+        else {
+            return new RestTemplateResponseDTO("200", "Vendor Already exists");
+        }
 
     }
     public Vendor getVendorByAccountNo(String accountNo){
