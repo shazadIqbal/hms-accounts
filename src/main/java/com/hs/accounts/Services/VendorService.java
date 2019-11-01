@@ -49,6 +49,7 @@ public class VendorService {
             accounts.setUserName(vendor.getName());
             //accounts.setTransactions(accountRestDTO.getTransactions());
             accountsRepository.save(accounts);
+
             return new RestTemplateResponseDTO("200", "successfull");
         }
         else {
